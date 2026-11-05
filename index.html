@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKILLTRACK — Personal Skill Development Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i data-lucide="zap"></i>
+          </div>
+          <span class="logo-text">SKILLTRACK</span>
+        </div>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-section="skills">
+          <i data-lucide="code-2"></i>
+          <span>My Skills</span>
+        </button>
+        <button class="nav-item" data-section="coding">
+          <i data-lucide="terminal"></i>
+          <span>Coding Tracker</span>
+        </button>
+        <button class="nav-item" data-section="timer">
+          <i data-lucide="timer"></i>
+          <span>Study Timer</span>
+        </button>
+        <button class="nav-item" data-section="goals">
+          <i data-lucide="target"></i>
+          <span>Goals</span>
+        </button>
+        <button class="nav-item" data-section="projects">
+          <i data-lucide="folder-kanban"></i>
+          <span>Projects</span>
+        </button>
+        <button class="nav-item" data-section="analytics">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Analytics</span>
+        </button>
+        <button class="nav-item" data-section="settings">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="user-avatar" id="sidebarAvatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarName">Anant</span>
+            <span class="user-role">Learner</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="topbar-title">
+          <h1 id="pageTitle">Dashboard</h1>
+          <p id="pageSubtitle">Track your growth every day</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">
+            <i data-lucide="moon" id="themeIcon"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- ==================== DASHBOARD ==================== -->
+        <section class="section active" id="section-dashboard">
+          <div class="hero-dashboard">
+            <div class="hero-left">
+              <h2 class="welcome-text">Welcome back, <span id="welcomeName">Anant</span> 👋</h2>
+              <p class="welcome-sub">Keep pushing. Consistency beats intensity.</p>
+              <div class="hero-stats">
+                <div class="hero-stat-card">
+                  <div class="stat-icon orange"><i data-lucide="code-2"></i></div>
+                  <div>
+                    <div class="stat-value" id="statSkills">0</div>
+                    <div class="stat-label">Skills</div>
+                  </div>
+                </div>
+                <div class="hero-stat-card">
+                  <div class="stat-icon"><i data-lucide="terminal"></i></div>
+                  <div>
+                    <div class="stat-value" id="statProblems">0</div>
+                    <div class="stat-label">Problems</div>
+                  </div>
+                </div>
+                <div class="hero-stat-card">
+                  <div class="stat-icon"><i data-lucide="clock"></i></div>
+                  <div>
+                    <div class="stat-value" id="statHours">0h</div>
+                    <div class="stat-label">Hours</div>
+                  </div>
+                </div>
+                <div class="hero-stat-card">
+                  <div class="stat-icon"><i data-lucide="flame"></i></div>
+                  <div>
+                    <div class="stat-value" id="statStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-right">
+              <div class="progress-ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 120 120">
+                  <circle class="ring-bg" cx="60" cy="60" r="52" />
+                  <circle class="ring-progress" id="overallRing" cx="60" cy="60" r="52" />
+                </svg>
+                <div class="ring-center">
+                  <span class="ring-value" id="overallProgress">0%</span>
+                  <span class="ring-label">Overall</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3>Weekly Learning Hours</h3>
+              </div>
+              <div class="chart-container">
+                <canvas id="weeklyChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3>Skills Progress</h3>
+              </div>
+              <div class="chart-container">
+                <canvas id="skillsChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Today's Goals</h3>
+                <button class="btn-sm" data-goto="goals">View All</button>
+              </div>
+              <div class="list" id="todayGoalsList">
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Recent Activity</h3>
+              </div>
+              <div class="list activity-list" id="activityList">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== SKILLS ==================== -->
+        <section class="section" id="section-skills">
+          <div class="section-toolbar">
+            <div class="search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="skillSearch" placeholder="Search skills..." />
+            </div>
+            <select id="skillFilter" class="select">
+              <option value="all">All Levels</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+              <option value="Expert">Expert</option>
+            </select>
+            <button class="btn btn-primary" id="addSkillBtn">
+              <i data-lucide="plus"></i> Add Skill
+            </button>
+          </div>
+          <div class="skills-grid" id="skillsGrid">
+          </div>
+        </section>
+
+        <!-- ==================== CODING ==================== -->
+        <section class="section" id="section-coding">
+          <div class="section-toolbar">
+            <div class="search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="problemSearch" placeholder="Search problems..." />
+            </div>
+            <select id="problemPlatform" class="select">
+              <option value="all">All Platforms</option>
+              <option value="LeetCode">LeetCode</option>
+              <option value="HackerRank">HackerRank</option>
+              <option value="CodeChef">CodeChef</option>
+              <option value="GFG">GFG</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="problemDifficulty" class="select">
+              <option value="all">All Difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+            <button class="btn btn-primary" id="addProblemBtn">
+              <i data-lucide="plus"></i> Add Problem
+            </button>
+          </div>
+
+          <div class="stats-row" id="codingStats">
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="problemsTable">
+              <thead>
+                <tr>
+                  <th>Problem</th>
+                  <th>Platform</th>
+                  <th>Difficulty</th>
+                  <th>Topic</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="problemsBody">
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== TIMER ==================== -->
+        <section class="section" id="section-timer">
+          <div class="timer-layout">
+            <div class="card timer-card">
+              <div class="timer-display" id="timerDisplay">00:00:00</div>
+              <div class="timer-controls">
+                <button class="btn btn-primary btn-lg" id="timerStart">
+                  <i data-lucide="play"></i> Start
+                </button>
+                <button class="btn btn-secondary btn-lg" id="timerPause" disabled>
+                  <i data-lucide="pause"></i> Pause
+                </button>
+                <button class="btn btn-ghost btn-lg" id="timerReset">
+                  <i data-lucide="rotate-ccw"></i> Reset
+                </button>
+              </div>
+              <div class="timer-skill">
+                <label>Skill focusing on</label>
+                <select id="timerSkill" class="select full">
+                  <option value="">Select a skill...</option>
+                </select>
+              </div>
+              <button class="btn btn-primary full" id="saveSessionBtn" disabled>
+                <i data-lucide="save"></i> Save Session
+              </button>
+            </div>
+
+            <div class="timer-side">
+              <div class="card">
+                <div class="card-header"><h3>Today</h3></div>
+                <div class="big-stat" id="todayHours">0h 0m</div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3>This Week</h3></div>
+                <div class="big-stat" id="weekHours">0h 0m</div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3>Total Hours</h3></div>
+                <div class="big-stat" id="totalHours">0h 0m</div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3>Recent Sessions</h3></div>
+                <div class="list" id="sessionsList"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== GOALS ==================== -->
+        <section class="section" id="section-goals">
+          <div class="section-toolbar">
+            <div class="search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="goalSearch" placeholder="Search goals..." />
+            </div>
+            <select id="goalFilter" class="select">
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+              <option value="overdue">Overdue</option>
+            </select>
+            <button class="btn btn-primary" id="addGoalBtn">
+              <i data-lucide="plus"></i> Add Goal
+            </button>
+          </div>
+          <div class="goals-grid" id="goalsGrid"></div>
+        </section>
+
+        <!-- ==================== PROJECTS ==================== -->
+        <section class="section" id="section-projects">
+          <div class="section-toolbar">
+            <div class="search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="projectSearch" placeholder="Search projects..." />
+            </div>
+            <select id="projectStatusFilter" class="select">
+              <option value="all">All Status</option>
+              <option value="Planning">Planning</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <button class="btn btn-primary" id="addProjectBtn">
+              <i data-lucide="plus"></i> Add Project
+            </button>
+          </div>
+          <div class="projects-grid" id="projectsGrid"></div>
+        </section>
+
+        <!-- ==================== ANALYTICS ==================== -->
+        <section class="section" id="section-analytics">
+          <div class="analytics-grid">
+            <div class="card chart-card">
+              <div class="card-header"><h3>Weekly Learning Hours</h3></div>
+              <div class="chart-container"><canvas id="analyticsWeeklyChart"></canvas></div>
+            </div>
+            <div class="card chart-card">
+              <div class="card-header"><h3>Skill-wise Progress</h3></div>
+              <div class="chart-container"><canvas id="analyticsSkillsChart"></canvas></div>
+            </div>
+            <div class="card chart-card">
+              <div class="card-header"><h3>Coding Difficulty</h3></div>
+              <div class="chart-container"><canvas id="difficultyChart"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Key Metrics</h3></div>
+              <div class="metrics-list" id="metricsList"></div>
+            </div>
+            <div class="card full-width">
+              <div class="card-header"><h3>Activity Heatmap (Last 30 Days)</h3></div>
+              <div class="heatmap" id="heatmap"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== SETTINGS ==================== -->
+        <section class="section" id="section-settings">
+          <div class="settings-grid">
+            <div class="card">
+              <div class="card-header"><h3>Profile</h3></div>
+              <div class="form-group">
+                <label>Display Name</label>
+                <input type="text" id="profileName" class="input" maxlength="40" />
+              </div>
+              <div class="form-group">
+                <label>Avatar Initial</label>
+                <input type="text" id="profileAvatar" class="input" maxlength="2" />
+              </div>
+              <div class="form-group">
+                <label>Daily Learning Target (hours)</label>
+                <input type="number" id="dailyTarget" class="input" min="0.5" max="12" step="0.5" />
+              </div>
+              <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><h3>Appearance</h3></div>
+              <div class="form-group">
+                <label>Theme</label>
+                <div class="theme-toggle-row">
+                  <button class="theme-option" data-theme="light">Light</button>
+                  <button class="theme-option" data-theme="dark">Dark</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><h3>Data</h3></div>
+              <p class="muted">Export your data or reset everything.</p>
+              <div class="btn-row">
+                <button class="btn btn-secondary" id="exportJsonBtn">
+                  <i data-lucide="download"></i> Export JSON
+                </button>
+                <button class="btn btn-secondary" id="exportCsvBtn">
+                  <i data-lucide="file-spreadsheet"></i> Export CSV
+                </button>
+              </div>
+              <button class="btn btn-danger full mt" id="resetDataBtn">
+                <i data-lucide="trash-2"></i> Reset All Data
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add Item</h3>
+        <button class="icon-btn" id="modalClose"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Confirm Dialog -->
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal confirm-modal">
+      <div class="modal-header">
+        <h3 id="confirmTitle">Confirm</h3>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage">Are you sure?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmOk">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
