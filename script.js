@@ -1,55 +1,16 @@
 /* ==================== SKILLTRACK - Main Application ==================== */
 
-const STORAGE_KEY = 'skilltrack_data_v1';
+const STORAGE_KEY = 'skilltrack_data_v2';
 
 const defaultData = {
   profile: { name: 'Anant', avatar: 'A', dailyTarget: 2 },
   theme: 'light',
-  skills: [
-    { id: 's1', name: 'Java', level: 'Intermediate', progress: 65, targetDate: '2026-12-31', notes: 'Focus on Spring Boot & Collections' },
-    { id: 's2', name: 'Python', level: 'Intermediate', progress: 70, targetDate: '2026-11-30', notes: 'Data analysis & automation scripts' },
-    { id: 's3', name: 'SQL', level: 'Advanced', progress: 80, targetDate: '2026-10-15', notes: 'Complex joins and window functions' },
-    { id: 's4', name: 'HTML', level: 'Expert', progress: 95, targetDate: '2026-09-01', notes: 'Semantic HTML & accessibility' },
-    { id: 's5', name: 'CSS', level: 'Advanced', progress: 85, targetDate: '2026-10-01', notes: 'Flexbox, Grid, animations' },
-    { id: 's6', name: 'JavaScript', level: 'Intermediate', progress: 72, targetDate: '2026-12-15', notes: 'ES6+, async, DOM' },
-    { id: 's7', name: 'React', level: 'Beginner', progress: 40, targetDate: '2027-01-31', notes: 'Hooks, components, state' },
-    { id: 's8', name: 'DSA', level: 'Intermediate', progress: 55, targetDate: '2026-12-31', notes: 'Arrays, Trees, Graphs' },
-    { id: 's9', name: 'Excel', level: 'Advanced', progress: 78, targetDate: '2026-11-01', notes: 'Pivot tables & formulas' },
-    { id: 's10', name: 'Power BI', level: 'Beginner', progress: 30, targetDate: '2027-02-28', notes: 'Dashboards & DAX basics' },
-    { id: 's11', name: 'Machine Learning', level: 'Beginner', progress: 25, targetDate: '2027-03-31', notes: 'Scikit-learn, basic models' }
-  ],
-  problems: [
-    { id: 'p1', name: 'Two Sum', url: 'https://leetcode.com/problems/two-sum', platform: 'LeetCode', difficulty: 'Easy', topic: 'Arrays', date: '2026-10-28' },
-    { id: 'p2', name: 'Valid Parentheses', url: 'https://leetcode.com/problems/valid-parentheses', platform: 'LeetCode', difficulty: 'Easy', topic: 'Stack', date: '2026-10-29' },
-    { id: 'p3', name: 'Binary Search', url: 'https://leetcode.com/problems/binary-search', platform: 'LeetCode', difficulty: 'Easy', topic: 'Searching', date: '2026-10-30' },
-    { id: 'p4', name: 'Merge Intervals', url: 'https://leetcode.com/problems/merge-intervals', platform: 'LeetCode', difficulty: 'Medium', topic: 'Arrays', date: '2026-11-01' },
-    { id: 'p5', name: 'LRU Cache', url: 'https://leetcode.com/problems/lru-cache', platform: 'LeetCode', difficulty: 'Hard', topic: 'Design', date: '2026-11-02' },
-    { id: 'p6', name: 'Max Element', url: '', platform: 'HackerRank', difficulty: 'Easy', topic: 'Arrays', date: '2026-11-03' }
-  ],
-  sessions: [
-    { id: 'ss1', skillId: 's1', skillName: 'Java', duration: 5400, date: '2026-11-04' },
-    { id: 'ss2', skillId: 's8', skillName: 'DSA', duration: 7200, date: '2026-11-04' },
-    { id: 'ss3', skillId: 's6', skillName: 'JavaScript', duration: 3600, date: '2026-11-05' },
-    { id: 'ss4', skillId: 's2', skillName: 'Python', duration: 4500, date: '2026-11-03' },
-    { id: 'ss5', skillId: 's7', skillName: 'React', duration: 2700, date: '2026-11-02' }
-  ],
-  goals: [
-    { id: 'g1', title: 'Complete 50 LeetCode problems', deadline: '2026-12-31', targetHours: 40, progress: 12, completed: false },
-    { id: 'g2', title: 'Finish React basics course', deadline: '2026-11-30', targetHours: 25, progress: 8, completed: false },
-    { id: 'g3', title: 'Build 3 full-stack projects', deadline: '2027-01-15', targetHours: 60, progress: 15, completed: false },
-    { id: 'g4', title: 'Master SQL joins', deadline: '2026-10-20', targetHours: 10, progress: 10, completed: true }
-  ],
-  projects: [
-    { id: 'pr1', title: 'Personal Portfolio', description: 'Modern responsive portfolio with dark mode and project showcase.', tech: ['HTML', 'CSS', 'JavaScript'], github: 'https://github.com', live: '', status: 'Completed' },
-    { id: 'pr2', title: 'Task Manager App', description: 'Todo app with drag-drop, filters and local storage.', tech: ['React', 'CSS'], github: '', live: '', status: 'In Progress' },
-    { id: 'pr3', title: 'Skill Tracker (this app)', description: 'Full personal skill development dashboard.', tech: ['HTML', 'CSS', 'JavaScript', 'Chart.js'], github: 'https://github.com/anantttt1/Skill-Tracker', live: '', status: 'In Progress' }
-  ],
-  activities: [
-    { text: 'Solved "LRU Cache" on LeetCode', time: '2 days ago' },
-    { text: 'Studied Java for 1.5 hours', time: '1 day ago' },
-    { text: 'Added React skill', time: '3 days ago' },
-    { text: 'Completed goal: Master SQL joins', time: '5 days ago' }
-  ]
+  skills: [],
+  problems: [],
+  sessions: [],
+  goals: [],
+  projects: [],
+  activities: []
 };
 
 let data = null, currentSection = 'dashboard', editingId = null, modalMode = null;
